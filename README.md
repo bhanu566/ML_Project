@@ -6,5 +6,5 @@ Machine Learning Project
     </embed>
 </object>
 
-citation:
+citation:<br>
 Pumarola, Albert, et al. "Ganimation: Anatomically-aware facial animation from a single image." Proceedings of the European Conference on Computer Vision (ECCV). 2018.
