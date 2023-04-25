@@ -1,0 +1,25 @@
+import boto3
+
+# Set the ARN of the role to assume
+role_arn = 'ROLE_ARN'
+
+# Set the name of the source and destination buckets
+source_bucket_name = 'SOURCE_BUCKET_NAME'
+destination_bucket_name = 'DESTINATION_BUCKET_NAME'
+
+# Set the key of the file to copy
+source_key = 'path/to/source/file.txt'
+destination_key = 'path/to/destination/file.txt'
+
+# Assume the specified role
+sts_client = boto3.client('sts')
+assumed_role = sts_client.assume_role(RoleArn=role_arn, RoleSessionName='AssumeRoleSession')
+
+# Create an S3 client using the assumed role credentials
+s3_client = boto3.client('s3',
+                         aws_access_key_id=assumed_role['Credentials']['AccessKeyId'],
+                         aws_secret_access_key=assumed_role['Credentials']['SecretAccessKey'],
+                         aws_session_token=assumed_role['Credentials']['SessionToken'])
+
+# Copy the file from the source bucket to the destination bucket
+s3_client.copy_object(Bucket=destination_bucket_name, CopySource={'Bucket': source_bucket_name, 'Key': source_key}, Key=destination_key)
